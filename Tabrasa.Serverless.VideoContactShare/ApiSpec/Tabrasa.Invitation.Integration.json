@@ -1,0 +1,417 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Tabrasa Invitation Service",
+    "description": "Service for storing, tracking, and using invitations for creating new accounts",
+    "version": "0.1.0"
+  },
+  "servers": [
+    {
+      "url": "https://dev-api.tabrasa.io/services/invitation/integration",
+      "description": "Development environment location"
+    },
+    {
+      "url": "https://uat-api.tabrasa.io/services/invitation/integration",
+      "description": "UAT environment location"
+    },
+    {
+      "url": "https://stg-api.tabrasa.io/services/invitation/integration",
+      "description": "Staging environment location"
+    },
+    {
+      "url": "https://api.tabrasa.io/services/invitation/integration",
+      "description": "Production environment location"
+    }
+  ],
+  "paths": {
+    "/Integration/video": {
+      "post": {
+        "summary": "Creates a new video invitation for the given consumer",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "description": "SubscriptionId",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          },
+          {
+            "name": "subscriberId",
+            "description": "SubscriberId",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConsumerVideoInvitationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Invitation Created"
+          },
+          "409": {
+            "description": "Account already in use"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/integration": {
+      "post": {
+        "summary": "Creates a new invitation for the given consumer",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "description": "SubscriptionId",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          },
+          {
+            "name": "subscriberId",
+            "description": "SubscriberId",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConsumerInvitationCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Invitation Created"
+          },
+          "409": {
+            "description": "Account already in use"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "API Key login via bearer token header for the requesting application.  Key should be JWT with client_svc_acct claim set to true"
+      }
+    },
+    "schemas": {
+      "ConsumerVideoInvitationRequest": {
+        "properties": {
+          "consumerId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "contactId": {
+            "type": "integer",
+            "format": "long",
+            "nullable": true
+          },
+          "ContactType": {
+            "$ref": "#/components/schemas/GlobalContactType",
+            "nullable": true
+          },
+          "videoId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "videoUrl": {
+            "type": "string"
+          },
+          "thumbnailUrl": {
+            "type": "string"
+          },
+          "customMessage": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string",
+            "description": "",
+            "x-enumNames": [
+              "Email",
+              "Engage"
+            ],
+            "enum": [
+              "Email",
+              "Engage"
+            ]
+          }
+        }
+      },
+      "GlobalContactType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Lead",
+          "Applicant",
+          "Partner"
+        ],
+        "enum": [
+          "Lead",
+          "Applicant",
+          "Partner"
+        ]
+      },
+      "Address": {
+        "properties": {
+          "street": {
+            "type": "string"
+          },
+          "unitType": {
+            "type": "string",
+            "enum": [
+              "None",
+              "Apartment",
+              "Basement",
+              "Building",
+              "Condo",
+              "Department",
+              "Floor",
+              "Front",
+              "Hangar",
+              "Key",
+              "Lobby",
+              "Lot",
+              "Lower",
+              "Office",
+              "Other",
+              "Penthouse",
+              "Pier",
+              "Rear",
+              "Room",
+              "Side",
+              "Space",
+              "Stop",
+              "Suite",
+              "Trailer",
+              "Unit",
+              "Upper"
+            ],
+            "nullable": true
+          },
+          "unitNumber": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "county": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "zip": {
+            "type": "string"
+          },
+          "zipPlus4": {
+            "type": "string"
+          },
+          "isForeignAddress": {
+            "type": "boolean"
+          },
+          "countryCode": {
+            "type": "string"
+          }
+        }
+      },
+      "AmortizationType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "Fixed ",
+          "AdjustableRate",
+          "Other"
+        ],
+        "enum": [
+          "None",
+          "Fixed ",
+          "AdjustableRate",
+          "Other"
+        ]
+      },
+      "MortgageData": {
+        "description": "Data specific to a Mortgage on a Property",
+        "properties": {
+          "AmortizationType": {
+            "$ref": "#/components/schemas/AmortizationType"
+          },
+          "InterestRate": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "LoanAmount": {
+            "type": "integer",
+            "nullable": true
+          },
+          "ClosingDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "purchasePrice": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "downPayment": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "loanTerm": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "PropertyData": {
+        "description": "Data about a consumer's property (or prospective property)",
+        "properties": {
+          "Address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "Mortgage": {
+            "$ref": "#/components/schemas/MortgageData"
+          }
+        }
+      },
+      "ConsumerData": {
+        "description": "Data about a consumer, for creation of invitation and then of the actual consumer on invite use",
+        "properties": {
+          "FirstName": {
+            "type": "string"
+          },
+          "LastName": {
+            "type": "string"
+          },
+          "Email": {
+            "type": "string",
+            "format": "email"
+          },
+          "Property": {
+            "$ref": "#/components/schemas/PropertyData"
+          }
+        }
+      },
+      "LoanData": {
+        "properties": {
+          "LoanId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "BorrowerId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "UserInitializationData": {
+        "description": "Data used to initialize the new user when using the invitation",
+        "properties": {
+          "Username": {
+            "type": "string"
+          },
+          "Password": {
+            "type": "string",
+            "format": "password"
+          },
+          "RecoveryEmail": {
+            "type": "string",
+            "format": "email"
+          }
+        },
+        "required": [
+          "Username",
+          "Password",
+          "RecoveryEmail"
+        ]
+      },
+      "ConsumerInvitationCreateRequest": {
+        "properties": {
+          "AssociatedLoanOfficerKey": {
+            "type": "string"
+          },
+          "CustomMessage": {
+            "type": "string"
+          },
+          "ConsumerProductKeys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "Consumer": {
+            "$ref": "#/components/schemas/ConsumerData"
+          },
+          "Loan": {
+            "$ref": "#/components/schemas/LoanData"
+          }
+        }
+      },
+      "ConsumerInvitationGetResponse": {
+        "properties": {
+          "CustomMessage": {
+            "type": "string"
+          },
+          "Consumer": {
+            "$ref": "#/components/schemas/ConsumerData"
+          },
+          "AssociatedLoanOfficerKey": {
+            "type": "string"
+          }
+        }
+      },
+      "ConsumerInvitationUseRequest": {
+        "properties": {
+          "NewUser": {
+            "$ref": "#/components/schemas/UserInitializationData"
+          },
+          "Consumer": {
+            "$ref": "#/components/schemas/ConsumerData"
+          }
+        },
+        "required": [
+          "NewUser"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,399 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Tabrasa Internal Video API",
+    "description": "API used for storing and retrieving Video details",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://dev-api.tabrasa.io/services/video/",
+      "description": "Development environment location"
+    },
+    {
+      "url": "https://uat-api.tabrasa.io/services/video/",
+      "description": "UAT environment location"
+    },
+    {
+      "url": "https://stg-api.tabrasa.io/services/video/",
+      "description": "Staging environment location"
+    },
+    {
+      "url": "https://api.tabrasa.io/services/video/",
+      "description": "Production environment location"
+    }
+  ],
+  "paths": {
+    "/internal/video/{videoId}/url": {
+      "get": {
+        "tags": [
+          "VIPVideo"
+        ],
+        "parameters": [
+          {
+            "name": "videoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VideoURLResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/internal/video/{videoId}": {
+      "get": {
+        "tags": [
+          "VIPVideo"
+        ],
+        "parameters": [
+          {
+            "name": "videoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VideoDataFull"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "VIPVideo"
+        ],
+        "parameters": [
+          {
+            "name": "videoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VideoDataFull"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VideoDataFull"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ThumbnailType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Static",
+          "Animated",
+          "Custom"
+        ],
+        "enum": [
+          "Static",
+          "Animated",
+          "Custom"
+        ]
+      },
+      "VideoURLResponse": {
+        "properties": {
+          "videoId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "This is the unique identifier for the video"
+          },
+          "clientId": {
+            "type": "integer"
+          },
+          "userId": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "streamUrl": {
+            "type": "string",
+            "description": "SignedURL of the video"
+          },
+          "thumbnailUrl": {
+            "type": "string",
+            "description": "SignedURL of the video thumbnail"
+          },
+          "directUrls": {
+            "description": "Array of urls for file access (mp4) URLs",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "expireOn": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time till signedURL is valid"
+          }
+        }
+      },
+      "VideoDataFull": {
+        "properties": {
+          "videoId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "clientId": {
+            "type": "integer"
+          },
+          "userId": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "externalId": {
+            "type": "string"
+          },
+          "isPublic": {
+            "type": "boolean"
+          },
+          "isPrivate": {
+            "type": "boolean"
+          },
+          "consumerShares": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConsumerShare"
+            }
+          },
+          "contactShares": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContactShare"
+            }
+          },
+          "partnerShares": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContactShare"
+            }
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "thumbnailSettings": {
+            "$ref": "#/components/schemas/ThumbnailSettings"
+          },
+          "pploadId": {
+            "type": "string"
+          },
+          "assetId": {
+            "type": "string"
+          },
+          "assetLengthSeconds": {
+            "type": "number",
+            "nullable": true
+          },
+          "publicPlaybackId": {
+            "type": "string"
+          },
+          "privatePlaybackId": {
+            "type": "string"
+          }
+        }
+      },
+      "ShareVideoToEmail": {
+        "properties": {
+          "videoId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "This is the unique identifier for the video"
+          },
+          "subject": {
+            "type": "string",
+            "description": "This is the video title"
+          },
+          "message": {
+            "type": "string",
+            "description": "This is the message to the consumer"
+          },
+          "singleRecipient": {
+            "type": "boolean"
+          },
+          "consumerRecipentIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "contactRecipientIds": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "partnerRecipientIds": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "ConsumerShare": {
+        "properties": {
+          "consumerId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "This is the unique identifier for this Consumer"
+          },
+          "sharingUserId": {
+            "type": "integer",
+            "description": "ID of the User who shared with the consumer"
+          }
+        }
+      },
+      "ThumbnailSettings": {
+        "properties": {
+          "ThumbnailType": {
+            "type": "string",
+            "enum": [
+              "Static",
+              "Animated",
+              "Custom"
+            ]
+          },
+          "start": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "end": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "customUrl": {
+            "type": "string"
+          },
+          "staticUrl": {
+            "type": "string"
+          },
+          "animatedUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "ContactShare": {
+        "properties": {
+          "contactId": {
+            "type": "integer",
+            "format":  "long",
+            "description": "ID of the contact shared with"
+          },
+          "sharingUserId": {
+            "type": "integer",
+            "description": "ID of the User who shared with the contact"
+          }
+        }
+      },
+      "ShareVideoRequest": {
+        "properties": {
+          "subject": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "loginRequired": {
+            "type": "boolean"
+          },
+          "contactIds": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    }
+  }
+}

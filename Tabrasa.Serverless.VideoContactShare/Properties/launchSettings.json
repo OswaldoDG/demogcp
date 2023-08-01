@@ -1,0 +1,19 @@
+{
+  "profiles": {
+    "Tabrasa.Serverless.VideoContactShare": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ProjectId": "development-internal-233813",
+        "Location": "us-central1",
+        "URLAEndpoint": "https://localhost:7007",
+        "ConsumerEndpoint": "https://localhost:7001",
+        "VideoEndpoint": "https://localhost:7017",
+        "InvitationEndpoint": "https://localhost:7005",
+        "TokenEndpoint": "https://localhost:6001/connect/token",
+        "TokenClientId": "Tabrasa.Internal",
+        "TokenClientSecret": "MhqxYAgD6ZPtUS5z",
+        "ContactVideoURLPattern": "aaaaa{1}{0}"
+      }
+    }
+  }
+}

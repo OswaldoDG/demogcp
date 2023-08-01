@@ -1,0 +1,13 @@
+# Tabrasa RPMSalesforce deployment
+steps:
+  # This step publish latest version of Tabrasa RPMSalesforce
+  - name: gcr.io/cloud-builders/gcloud
+    id: Publish RPMSalesforce
+    args: ['functions', 'deploy', "RPMSalesforce", 
+           '--entry-point', 'Tabrasasa.Serverless.Forms.RPMSalesforce', 
+           '--runtime', 'dotnet3', 
+           '--trigger-http', '--allow-unauthenticated', 
+           '--security-level', 'secure-always',
+           '--source', './Tabrasasa.Serverless.Forms/', 
+           '--env-vars-file', './gcp/dev/tabrasa-rpm-salesforce-env.yaml', 
+           '--project', 'development-internal-233813']

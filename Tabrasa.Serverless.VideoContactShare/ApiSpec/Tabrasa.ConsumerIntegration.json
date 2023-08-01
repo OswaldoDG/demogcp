@@ -1,0 +1,764 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Tabrasa Consumer API (Integration)",
+    "description": "API used for storing and retrieving Consumer details by Integration Services",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://dev-api.tabrasa.io/services/consumer/",
+      "description": "Development environment location"
+    },
+    {
+      "url": "https://uat-api.tabrasa.io/services/consumer/",
+      "description": "UAT environment location"
+    },
+    {
+      "url": "https://stg-api.tabrasa.io/services/consumer/",
+      "description": "Staging environment location"
+    },
+    {
+      "url": "https://api.tabrasa.io/services/consumer/",
+      "description": "Production environment location"
+    }
+  ],
+  "paths": {
+    "/integration/consumer/byexternalid": {
+      "get": {
+        "parameters": [
+          {
+            "name": "loKey",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sourceSystemKey",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "contactKey",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Tabrasa-AppScope",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of consumers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConsumerExtended"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "NotFound"
+          }
+        }
+      }
+    },
+    "/integration/consumer": {
+      "post": {
+        "operationId": "addConsumer",
+        "summary": "Creates a new Consumer",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConsumerExtended"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Consumer Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsumerExtended"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/integration/consumer/{consumerId}": {
+      "parameters": [
+        {
+          "name": "consumerId",
+          "in": "path",
+          "required": true,
+          "description": "The unique identifier of a Consumer",
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "getConsumerById",
+        "summary": "Gets a Consumer's data by Id.",
+        "responses": {
+          "200": {
+            "description": "Consumer retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsumerExtended"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Invalid Consumer Specified"
+          }
+        }
+      },
+      "put": {
+        "operationId": "updateConsumerById",
+        "summary": "Updates to Consumer data, including extended data.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConsumerExtended"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Consumer updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsumerExtended"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request: See StatusCode",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Invalid Consumer Specified"
+          }
+        }
+      }
+    },
+    "/integration/consumer/byEmail/{emailAddress}": {
+      "parameters": [
+        {
+          "name": "emailAddress",
+          "in": "path",
+          "required": true,
+          "description": "Email address to search on",
+          "schema": {
+            "type": "string",
+            "format": "email"
+          }
+        },
+        {
+          "name": "Tabrasa-AppScope",
+          "description": "Application scope the invitation is for.  Injected via routing gateway.",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        }
+      ],
+      "get": {
+        "operationId": "getConsumerByEmail",
+        "summary": "Tries to find a matching Consumer record by Email Address",
+        "responses": {
+          "200": {
+            "description": "User Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsumerExtended"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "No user found with given email address"
+          }
+        }
+      }
+    },
+    "/integration/consumer/byUserId/{consumerUserId}": {
+      "parameters": [
+        {
+          "name": "consumerUserId",
+          "in": "path",
+          "required": true,
+          "description": "ID of User to get Consumer record for",
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "name": "Tabrasa-AppScope",
+          "description": "Application scope the invitation is for.  Injected via routing gateway.",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": true
+        }
+      ],
+      "get": {
+        "operationId": "getConsumerByUserId",
+        "description": "Gets a Consumer record by the owning User's ID",
+        "responses": {
+          "200": {
+            "description": "Consumer Record Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsumerExtended"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "No Loan Application found matching the given ID"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Address": {
+        "properties": {
+          "street": {
+            "type": "string"
+          },
+          "unitType": {
+            "type": "string",
+            "enum": [
+              "None",
+              "Apartment",
+              "Basement",
+              "Building",
+              "Condo",
+              "Department",
+              "Floor",
+              "Front",
+              "Hangar",
+              "Key",
+              "Lobby",
+              "Lot",
+              "Lower",
+              "Office",
+              "Other",
+              "Penthouse",
+              "Pier",
+              "Rear",
+              "Room",
+              "Side",
+              "Space",
+              "Stop",
+              "Suite",
+              "Trailer",
+              "Unit",
+              "Upper"
+            ],
+            "nullable": true
+          },
+          "unitNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "county": {
+            "type": "string",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "nullable": true
+          },
+          "zip": {
+            "type": "string",
+            "nullable": true
+          },
+          "zipPlus4": {
+            "type": "string",
+            "nullable": true
+          },
+          "isForeignAddress": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "countryCode": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "Consumer": {
+        "properties": {
+          "consumerId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "This is the unique identifier for this Consumer"
+          },
+          "consumerUserId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier for the user record associated to this Consumer",
+            "nullable": true
+          },
+          "consumerScope": {
+            "type": "string",
+            "description": "A Key relating this Consumer to a specific Client"
+          },
+          "firstName": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Consumer's First Name"
+          },
+          "middleName": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Consumer's Middle Name",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Consumer's Last Name",
+            "nullable": true
+          },
+          "emailAddress": {
+            "type": "string",
+            "format": "email"
+          },
+          "address": {
+            "type": "object",
+            "$ref": "#/components/schemas/Address",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ExternalSystemKey": {
+        "properties": {
+          "contactKey": {
+            "type": "string",
+            "nullable": true,
+            "description": "Identifies the Contact Id from the Specified Source System. Leave empty for POS MVP release."
+          },
+          "loanOfficerKey": {
+            "type": "string",
+            "description": "Identifies the Loan Officer Id from the Specified Source System."
+          },
+          "sourceSystemKey": {
+            "type": "string",
+            "description": "Identifies the Id for the Specified Source System."
+          },
+          "productKey": {
+            "type": "string",
+            "description": "Identifies the Tabrasa product. Engage/HomeMonitor"
+          }
+        }
+      },
+      "ConsentData": {
+        "properties": {
+          "consentType": {
+            "type": "string",
+            "enum": [
+              "ThirdPartySharing",
+              "TextingCommunication",
+              "CreditPullAuthorization",
+              "EConsent"
+            ],
+            "description": "Category of consent given"
+          },
+          "dateGiven": {
+            "type": "string",
+            "format": "Date",
+            "description": "Date that consent was given"
+          },
+          "consentText": {
+            "type": "string",
+            "description": "Language of consent the consumer agreed to"
+          }
+        }
+      },
+      "LoanApplication": {
+        "properties": {
+          "applicationKey": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Identifies the loan Application Guid from the Specified Source System"
+          },
+          "loanOfficerKey": {
+            "type": "string",
+            "description": "Identifies the Loan Officer Id from the Specified Source System"
+          },
+          "sourceSystemKey": {
+            "type": "string",
+            "nullable": true,
+            "description": "Identifies the Id for the Specified Source System"
+          },
+          "propertyAddress": {
+            "$ref": "#/components/schemas/Address",
+            "description": "Property Address for the Property on the loan"
+          },
+          "loanType": {
+            "type": "string",
+            "description": "Loan Application Type - Purchase/Refinance etc",
+            "enum": [
+              "None",
+              "Purchase",
+              "RefinanceNoCashOut",
+              "RefinanceCashOut",
+              "Construction",
+              "ConstructionToPermanent",
+              "Other"
+            ]
+          },
+          "dateStarted": {
+            "type": "string",
+            "format": "date",
+            "description": "The date when the application was started"
+          },
+          "applicationSubmitted": {
+            "type": "boolean",
+            "description": "Has the Consumer submitted this loan application - yes/no"
+          },
+          "consentsGiven": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConsentData"
+            },
+            "description": "List of Consents given by the consumer for this application, including date and language consented to"
+          }
+        }
+      },
+      "Mortgage": {
+        "properties": {
+          "mortgageKey": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The unique identifier for this Mortgage from the Property Service"
+          },
+          "loanApplicationKey": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "loanAmount": {
+            "type": "integer"
+          },
+          "amortizationType": {
+            "type": "string",
+            "enum": [
+              "None",
+              "Fixed",
+              "AdjustableRate",
+              "Other"
+            ]
+          },
+          "loanTerm": {
+            "type": "integer"
+          },
+          "rate": {
+            "type": "number"
+          },
+          "closingDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "pmi": {
+            "type": "integer"
+          },
+          "principalAndInterest": {
+            "type": "integer"
+          },
+          "additionalPayments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/additionalPayment"
+            }
+          }
+        }
+      },
+      "RefinanceOption": {
+        "properties": {
+          "refinanceOptionKey": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "refinanceOptionName": {
+            "type": "string"
+          },
+          "amortizationType": {
+            "type": "string",
+            "enum": [
+              "None",
+              "Fixed",
+              "AdjustableRate",
+              "Other"
+            ]
+          },
+          "loanTerm": {
+            "type": "integer"
+          },
+          "rate": {
+            "type": "number"
+          },
+          "points": {
+            "type": "integer"
+          },
+          "closingCosts": {
+            "type": "integer"
+          },
+          "additionalPayments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/additionalPayment"
+            }
+          },
+          "rollClosingCosts": {
+            "type": "boolean"
+          },
+          "cashOut": {
+            "type": "integer"
+          },
+          "lenderCostPercent": {
+            "type": "number"
+          },
+          "thirdPartyCostPercent": {
+            "type": "number"
+          },
+          "prePaidMonths": {
+            "type": "integer"
+          }
+        }
+      },
+      "ConsumerProperty": {
+        "properties": {
+          "propertyKey": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true,
+            "description": "The unique identifier for this Property from the Property Service"
+          },
+          "propertyName": {
+            "type": "string"
+          },
+          "address": {
+            "type": "object",
+            "$ref": "#/components/schemas/Address"
+          },
+          "purchasePrice": {
+            "type": "integer"
+          },
+          "downPayment": {
+            "type": "integer"
+          },
+          "hoa": {
+            "type": "integer"
+          },
+          "insurance": {
+            "type": "integer"
+          },
+          "propertyTax": {
+            "type": "integer"
+          }
+        }
+      },
+      "ConsumerPropertyExtended": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ConsumerProperty"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "primaryMortgage": {
+                "type": "object",
+                "$ref": "#/components/schemas/Mortgage"
+              },
+              "helocMortgage": {
+                "type": "object",
+                "$ref": "#/components/schemas/Mortgage"
+              },
+              "remainingBalanceDate": {
+                "type": "string",
+                "format": "date",
+                "nullable": true
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "RefinanceOptions"
+            ],
+            "properties": {
+              "refinanceOptions": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RefinanceOption"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "ConsumerExtended": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Consumer"
+          },
+          {
+            "type": "object",
+            "required": [
+              "Properties"
+            ],
+            "properties": {
+              "externalSystemKeys": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ExternalSystemKey"
+                }
+              },
+              "loanApplications": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/LoanApplication"
+                }
+              },
+              "homeMonitor": {
+                "$ref": "#/components/schemas/HomeMonitor"
+              }
+            }
+          }
+        ]
+      },
+      "HomeMonitor": {
+        "type": "object",
+        "properties": {
+          "registered": {
+            "type": "boolean",
+            "nullable": true
+          }
+        }
+      },
+      "paymentSchedule": {
+        "enum": [
+          "OneTime",
+          "Monthly",
+          "Annual"
+        ],
+        "type": "string"
+      },
+      "additionalPayment": {
+        "properties": {
+          "PaymentSchedule": {
+            "$ref": "#/components/schemas/paymentSchedule",
+            "description": "Type of payment, based on enum"
+          },
+          "amount": {
+            "type": "number",
+            "format": "decimal",
+            "description": "Amount of the payment, paid on the scheduled basis"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "Date",
+            "description": " Date when the payments would start"
+          },
+          "EndDate": {
+            "type": "string",
+            "format": "Date",
+            "nullable": true,
+            "description": "If set, sets when the scheduled payments are no longer considered"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "properties": {
+          "errorCode": {
+            "type": "string",
+            "enum": [
+              "INVALIDConsumerId",
+              "INVALIDPropertyId",
+              "INVALIDMortgageId"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

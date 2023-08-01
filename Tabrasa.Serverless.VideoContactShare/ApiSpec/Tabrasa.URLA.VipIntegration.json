@@ -1,0 +1,5560 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Tabrasa URLA/VIP Integration API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://dev-api.tabrasa.io/services/urla/",
+      "description": "Development environment location"
+    },
+    {
+      "url": "https://uat-api.tabrasa.io/services/urla/",
+      "description": "UAT environment location"
+    },
+    {
+      "url": "https://stg-api.tabrasa.io/services/urla/",
+      "description": "Staging environment location"
+    },
+    {
+      "url": "https://api.tabrasa.io/services/urla/",
+      "description": "Production environment location"
+    }
+  ],
+  "paths": {
+    "/internal/contactsummary/global/byIdList": {
+      "post": {
+        "tags": [
+          "GetGlobalContactSummariesByIdList"
+        ],
+        "parameters": [
+          {
+            "name": "subscriberId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "x-position": 0
+          },
+          {
+            "name": "subscriptionId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/GlobalContactIdResult"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GlobalContactSummary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/internal/contactsummary/lead/byIdList": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "subscriberId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "x-position": 0
+          },
+          {
+            "name": "subscriptionId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LeadSummary"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vipintegration/loan/{applicationId}": {
+      "get": {
+        "operationId": "getLoan",
+        "parameters": [
+          {
+            "name": "applicationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "includeMetadata",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "subscriberId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "subscriptionId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "x-position": 4
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/Loan"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": ""
+          }
+        }
+      },
+      "put": {
+        "operationId": "updateLoan",
+        "parameters": [
+          {
+            "name": "applicationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "subscriberId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "subscriptionId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "x-position": 3
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/Loan"
+                  }
+                ]
+              }
+            }
+          },
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": ""
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/vipintegration/loan": {
+      "post": {
+        "operationId": "createLoan",
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/Loan"
+                  }
+                ]
+              }
+            }
+          },
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "guid"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/vipintegration/loan/{applicationid}/ssn": {
+      "parameters": [
+        {
+          "name": "applicationid",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "guid"
+          },
+          "x-position": 1
+        }
+      ],
+      "get": {
+        "operationId": "getLoanSSN",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/SSN"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "updateLoanSSN",
+        "requestBody": {
+          "x-name": "ssn",
+          "content": {
+            "application/json": {
+              "schema": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/SSN"
+                  }
+                ]
+              }
+            }
+          },
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vipintegration/loan/{applicationid}/ExportToLOS": {
+      "post": {
+        "operationId": "exportLoanToLOS",
+        "parameters": [
+          {
+            "name": "applicationid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vipintegration/source": {
+      "get": {
+        "operationId": "getSources",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "nullable": true,
+                  "items": {
+                    "$ref": "#/components/schemas/Partner"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vipintegration/vipuserprofile/{userId}": {
+      "get": {
+        "operationId": "getVipUserProfile",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/UserProfile"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/vipintegration/vipuserprofile/byKey/{userKey}": {
+      "get": {
+        "operationId": "getVipUserProfileByKey",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "userKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/UserProfile"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/vipintegration/loan/byLosId/{losid}": {
+      "get": {
+        "operationId": "getLoanByLosId",
+        "parameters": [
+          {
+            "name": "losid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "subscriberId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "subscriptionId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "x-position": 4
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/Loan"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": ""
+          },
+          "404": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/vipintegration/lead/byconsumerid/{consumerId}": {
+      "put": {
+        "operationId": "UpsertConsumerData",
+        "parameters": [
+          {
+            "name": "consumerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "subscriberId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "subscriptionId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "nullable": false,
+                "$ref": "#/components/schemas/SyncConsumerLeadData"
+              }
+            }
+          },
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/vipintegration/loan/getForAddressStandardization": {
+      "post": {
+        "summary": "Gets a list of pending property validation by loan",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationsForValidationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Hits retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApplicationsForValidationHit"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/vipintegration/loan/{applicationId}/StandardizedAddress": {
+      "post": {
+        "summary": "Set loan application standardized address",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "applicationId",
+            "in": "path",
+            "required": true,
+            "description": "Loan application Id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/ApplicationAddressValidation"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Message posted successfully"
+          },
+          "400": {
+            "description": "Invalid Json data"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "API Key login via bearer token header for the requesting application.  Key should be JWT"
+      }
+    },
+    "schemas": {
+      "GlobalContactIdResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "cid": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": false
+          },
+          "cType": {
+            "nullable": false,
+            "$ref": "#/components/schemas/GlobalContactType"
+          }
+        }
+      },
+      "GlobalContactType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Lead",
+          "Applicant",
+          "Partner"
+        ],
+        "enum": [
+          "Lead",
+          "Applicant",
+          "Partner"
+        ]
+      },
+      "GlobalContactSummary": {
+        "type": "object",
+        "properties": {
+          "contactId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "contactType": {
+            "$ref": "#/components/schemas/GlobalContactType",
+            "nullable": false
+          },
+          "ownerSubscriberId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "userRealName": {
+            "$ref": "#/components/schemas/Name"
+          },
+          "userCompanyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "fullName": {
+            "$ref": "#/components/schemas/Name"
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "doNotCall": {
+            "type": "boolean",
+            "nullable": false,
+            "default": false
+          },
+          "phones": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Phone"
+            },
+            "nullable": true
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "modifiedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "statusId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "statusName": {
+            "type": "string",
+            "nullable": true
+          },
+          "statusChangedDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LeadSummary": {
+        "type": "object",
+        "properties": {
+          "ownerSubscriberId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "userRealName": {
+            "$ref": "#/components/schemas/Name"
+          },
+          "userCompanyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "fullName": {
+            "$ref": "#/components/schemas/Name"
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "doNotCall": {
+            "type": "boolean",
+            "nullable": false,
+            "default": false
+          },
+          "phones": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Phone"
+            },
+            "nullable": true
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "modifiedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "statusId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "statusName": {
+            "type": "string",
+            "nullable": true
+          },
+          "statusChangedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "leadId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "sourceId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "sourceName": {
+            "type": "string",
+            "nullable": true
+          },
+          "referralPartnerId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "referralPartnerName": {
+            "$ref": "#/components/schemas/Name",
+            "nullable": true
+          },
+          "presentAddress": {
+            "$ref": "#/components/schemas/Address",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApplicationAddressValidation": {
+        "type": "object",
+        "properties": {
+          "subscriptionId": {
+            "type": "integer"
+          },
+          "loanApplicationGUID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "address1": {
+            "type": "string"
+          },
+          "address2": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "zipCode": {
+            "type": "string"
+          },
+          "zipPlus4": {
+            "type": "string"
+          },
+          "validationResultCode": {
+            "type": "string"
+          },
+          "attomId": {
+            "type": "integer",
+            "nullable": true
+          },
+          "historicalRecords": {
+            "type": "integer",
+            "nullable": true
+          },
+          "estimatedValue": {
+            "nullable": true,
+            "type": "number"
+          },
+          "dateEstimatedValue": {
+            "nullable": true,
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "Address": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "isForeignAddress": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "unitType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AddressUnitType"
+              }
+            ]
+          },
+          "unitNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "county": {
+            "type": "string",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "nullable": true
+          },
+          "zip": {
+            "type": "string",
+            "nullable": true
+          },
+          "zipPlus4": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryCode": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "AddressUnitType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "Apartment",
+          "Basement",
+          "Building",
+          "Condo",
+          "Department",
+          "Floor",
+          "Front",
+          "Hangar",
+          "Key",
+          "Lobby",
+          "Lot",
+          "Lower",
+          "Office",
+          "Other",
+          "Penthouse",
+          "Pier",
+          "Rear",
+          "Room",
+          "Side",
+          "Space",
+          "Stop",
+          "Suite",
+          "Trailer",
+          "Unit",
+          "Upper"
+        ],
+        "enum": [
+          "None",
+          "Apartment",
+          "Basement",
+          "Building",
+          "Condo",
+          "Department",
+          "Floor",
+          "Front",
+          "Hangar",
+          "Key",
+          "Lobby",
+          "Lot",
+          "Lower",
+          "Office",
+          "Other",
+          "Penthouse",
+          "Pier",
+          "Rear",
+          "Room",
+          "Side",
+          "Space",
+          "Stop",
+          "Suite",
+          "Trailer",
+          "Unit",
+          "Upper"
+        ]
+      },
+      "AddressDetail": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Address"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "addressType": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/AddressType"
+                  }
+                ]
+              },
+              "years": {
+                "type": "integer",
+                "format": "int32",
+                "nullable": true
+              },
+              "months": {
+                "type": "integer",
+                "format": "int32",
+                "nullable": true
+              },
+              "residencyType": {
+                "nullable": true,
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/ResidencyType"
+                  }
+                ]
+              },
+              "rentPerMonth": {
+                "type": "number",
+                "format": "decimal",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "AddressType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "Current",
+          "Prior",
+          "Mailing"
+        ],
+        "enum": [
+          "None",
+          "Current",
+          "Prior",
+          "Mailing"
+        ]
+      },
+      "ResidencyType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "Own",
+          "Rent",
+          "LivingRentFree"
+        ],
+        "enum": [
+          "None",
+          "Own",
+          "Rent",
+          "LivingRentFree"
+        ]
+      },
+      "AmortizationType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "Fixed",
+          "AdjustableRate",
+          "Other"
+        ],
+        "enum": [
+          "None",
+          "Fixed",
+          "AdjustableRate",
+          "Other"
+        ]
+      },
+      "ApiConstants": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "APIEndpointType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "VIP",
+          "VIPIntegration",
+          "Consumer"
+        ],
+        "enum": [
+          "VIP",
+          "VIPIntegration",
+          "Consumer"
+        ]
+      },
+      "ApplicationTakenMethodType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "FaceToFaceInterview",
+          "Telephone",
+          "Fax",
+          "Email"
+        ],
+        "enum": [
+          "None",
+          "FaceToFaceInterview",
+          "Telephone",
+          "Fax",
+          "Email"
+        ]
+      },
+      "Appointment": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "appointmentId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "contactId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "contactType": {
+            "$ref": "#/components/schemas/ContactType"
+          },
+          "loanApplicationGuid": {
+            "type": "string",
+            "format": "guid"
+          },
+          "startTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "endTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "subject": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "isAllDay": {
+            "type": "boolean"
+          },
+          "timeZoneOffset": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "needSync": {
+            "type": "boolean"
+          },
+          "dateCreated": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "ContactType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Lead",
+          "Prospect",
+          "ProspectInProcess",
+          "Client",
+          "Partner",
+          "Recruit",
+          "Adverse"
+        ],
+        "enum": [
+          "Lead",
+          "Prospect",
+          "ProspectInProcess",
+          "Client",
+          "Partner",
+          "Recruit",
+          "Adverse"
+        ]
+      },
+      "Asset": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "assetId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "accountType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AssetAccountType"
+              }
+            ]
+          },
+          "financialInstitution": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "cashOrMarketValue": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          }
+        }
+      },
+      "AssetAccountType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "Bond",
+          "BridgeLoanNotDeposited",
+          "LifeInsurance",
+          "CertificateOfDepositTimeDeposit",
+          "CheckingAccount",
+          "IndividualDevelopmentAccount",
+          "MoneyMarketFund",
+          "MutualFund",
+          "RetirementFund",
+          "SavingsAccount",
+          "Stock",
+          "StockOptions",
+          "TrustAccount"
+        ],
+        "enum": [
+          "None",
+          "Bond",
+          "BridgeLoanNotDeposited",
+          "LifeInsurance",
+          "CertificateOfDepositTimeDeposit",
+          "CheckingAccount",
+          "IndividualDevelopmentAccount",
+          "MoneyMarketFund",
+          "MutualFund",
+          "RetirementFund",
+          "SavingsAccount",
+          "Stocks",
+          "StockOptions",
+          "TrustAccount"
+        ]
+      },
+      "AssetAndCreditType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "CashOnHand",
+          "EarnestMoney",
+          "EmployerAssistedHousing",
+          "LotEquity",
+          "Other",
+          "PendingNetSaleProceedsFromRealEstateAssets",
+          "ProceedsFromSaleOfNonRealEstateAsset",
+          "RelocationFunds",
+          "LeasePurchaseFund",
+          "ProceedsFromSecuredLoan",
+          "SweatEquity",
+          "TradeEquityFromPropertySwap",
+          "ProceedsFromUnsecuredLoan"
+        ],
+        "enum": [
+          "None",
+          "CashOnHand",
+          "EarnestMoney",
+          "EmployerAssistedHousing",
+          "LotEquity",
+          "Other",
+          "PendingNetSaleProceedsFromRealEstateAssets",
+          "ProceedsFromSaleOfNonRealEstateAsset",
+          "RelocationFunds",
+          "LeasePurchaseFund",
+          "ProceedsFromSecuredLoan",
+          "SweatEquity",
+          "TradeEquityFromPropertySwap",
+          "ProceedsFromUnsecuredLoan"
+        ]
+      },
+      "BankruptcyType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "ChapterSeven",
+          "ChapterEleven",
+          "ChapterTwelve",
+          "ChapterThirteen"
+        ],
+        "enum": [
+          "None",
+          "ChapterSeven",
+          "ChapterEleven",
+          "ChapterTwelve",
+          "ChapterThirteen"
+        ]
+      },
+      "BestTimeToContact": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Morning",
+          "Afternoon",
+          "Evening",
+          "Anytime"
+        ],
+        "enum": [
+          "Morning",
+          "Afternoon",
+          "Evening",
+          "Anytime "
+        ]
+      },
+      "Borrower": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "borrowerGUID": {
+            "type": "string",
+            "format": "guid",
+            "nullable": true
+          },
+          "borrowerType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/BorrowerType"
+              }
+            ]
+          },
+          "fullName": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Name"
+              }
+            ]
+          },
+          "alternateNames": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Name"
+            }
+          },
+          "taxIdentifierType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TaxIdentifierType"
+              }
+            ]
+          },
+          "taxIdentifierLast4": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "citizenshipType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CitizenshipType"
+              }
+            ]
+          },
+          "creditType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CreditType"
+              }
+            ]
+          },
+          "totalNumberOfBorrowers": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "additionalBorrowerNames": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Name"
+            }
+          },
+          "maritalStatus": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MaritalStatus"
+              }
+            ]
+          },
+          "isThereAPersonWhoIsNotYourLegalSpouseButHasRealPropertyRights": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "domesticRelationshipType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DomesticRelationshipType"
+              }
+            ]
+          },
+          "domesticRelationshipTypeOtherDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "domesticRelationshipState": {
+            "type": "string",
+            "nullable": true
+          },
+          "numberOfDependents": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "dependentsAges": {
+            "type": "string",
+            "nullable": true
+          },
+          "phones": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Phone"
+            }
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "nullable": true
+          },
+          "addresses": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/AddressDetail"
+            }
+          },
+          "employments": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Employment"
+            }
+          },
+          "incomeOtherSources": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/IncomeOtherSource"
+            }
+          },
+          "hasNoEmployment": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "hasNoOtherIncome": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "hasNoRealEstate": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "hasNoLiabilities": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "assets": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Asset"
+            }
+          },
+          "otherAssets": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/OtherAsset"
+            }
+          },
+          "liabilities": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Liability"
+            }
+          },
+          "otherLiabilitiesAndExpenses": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/OtherLiability"
+            }
+          },
+          "giftOrGrants": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/GiftOrGrant"
+            }
+          },
+          "realEstatesOwned": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/RealEstate"
+            }
+          },
+          "intentToOccupy": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "propertyOwnershipInterest": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "propertyOwnershipType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/OccupancyType"
+              }
+            ]
+          },
+          "propertyOwnershipTitleHeld": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/PropertyTitleHeldType"
+              }
+            ]
+          },
+          "relationshipWithSeller": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "borrowingMoneyForTransactionNotDisclosed": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "amountOfMoneyBorrowedForTransaction": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "applyingForMortgagesOnAnotherProperty": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "applyingForNewCredit": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isPropertySubjectToALien": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "cosignerOrGuarantorOnAnyDebtOrLoanNotDisclosed": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "anyOutstandingJudgments": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "currentlyDelinquentOrDefaultOnFederalDebt": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "partyToLawsuitWithPotentialFinancialLiability": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "conveyedTitleToAnyPropertyInLieuOfForeclosure": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "completedPreForeclosureOrShortSale": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "hadPropertyForeclosed": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "declaredBankruptcy": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "bankruptcyChapter7": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "bankruptcyChapter11": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "bankruptcyChapter12": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "bankruptcyChapter13": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "militaryServedInArmedForces": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "militaryOnActiveDuty": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "militaryOnActiveDutyEndDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "militaryRetiredDischargedOrSeparatedFromService": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "miliaryServedAsNonActivatedMemberOfReserveOrNationalGuard": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "militarySurvivingSpouse": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "ethnicityHispanicOrLatino": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "ethnicityNotHispanicOrLatino": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "ethnicityDoNotWishToProvide": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "ethnicityMexican": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "ethnicityPuertoRican": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "ethnicityCuban": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "ethnicityOther": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "ethnicityOtherDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "sexFemale": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "sexMale": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "sexDoNotWishToProvide": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "raceAmericanIndianOrAlaskaNative": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "raceAmericanIndianOrAlaskaNativePrincipalTribe": {
+            "type": "string",
+            "nullable": true
+          },
+          "raceAsian": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "raceBlackOrAfricanAmerican": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "raceNativeHawaiianOrPacificIslander": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "raceWhite": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "raceDoNotWishToProvide": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "raceAsianIndian": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "raceAsianChinese": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "raceAsianFilipino": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "raceAsianJapanese": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "raceAsianKorean": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "raceAsianVietnamese": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "raceAsianOther": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "raceAsianOtherDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "racePacificIslanderHawaiian": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "racePacificIslanderGuamanianOrChamorro": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "racePacificIslanderSamoan": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "racePacificIslanderOther": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "racePacificIslanderOtherDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "ethnicityByVisualObservationOrSurname": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "sexByVisualObservationOrSurname": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "raceByVisualObservationOrSurname": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "applicationTakenMethod": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ApplicationTakenMethodType"
+              }
+            ]
+          },
+          "acknowledgementSignatureDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "BorrowerType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "Primary",
+          "Secondary",
+          "Additional"
+        ],
+        "enum": [
+          "None",
+          "Primary",
+          "Secondary",
+          "Additional"
+        ]
+      },
+      "Name": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "first",
+          "last"
+        ],
+        "properties": {
+          "first": {
+            "type": "string",
+            "minLength": 1
+          },
+          "middle": {
+            "type": "string",
+            "nullable": true
+          },
+          "last": {
+            "type": "string",
+            "minLength": 1
+          },
+          "suffix": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "TaxIdentifierType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "IndividualTaxpayerIdentificationNumber",
+          "SocialSecurityNumber"
+        ],
+        "enum": [
+          "None",
+          "IndividualTaxpayerIdentificationNumber",
+          "SocialSecurityNumber"
+        ]
+      },
+      "CitizenshipType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "USCitizen",
+          "PermanentResidentAlien",
+          "NonPermanentResidentAlien"
+        ],
+        "enum": [
+          "None",
+          "USCitizen",
+          "PermanentResidentAlien",
+          "NonPermanentResidentAlien"
+        ]
+      },
+      "CreditType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "IndividualCredit",
+          "JointCredit"
+        ],
+        "enum": [
+          "None",
+          "IndividualCredit",
+          "JointCredit"
+        ]
+      },
+      "MaritalStatus": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "Married",
+          "Separated",
+          "Unmarried"
+        ],
+        "enum": [
+          "None",
+          "Married",
+          "Separated",
+          "Unmarried"
+        ]
+      },
+      "DomesticRelationshipType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "CivilUnion",
+          "DomesticPartnership",
+          "Other",
+          "RegisteredReciprocalBeneficiaryRelationship"
+        ],
+        "enum": [
+          "None",
+          "CivilUnion",
+          "DomesticPartnership",
+          "Other",
+          "RegisteredReciprocalBeneficiaryRelationship"
+        ]
+      },
+      "Phone": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "phoneNumber"
+        ],
+        "properties": {
+          "isPrimary": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "phoneType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/PhoneType"
+              }
+            ]
+          },
+          "phoneNumber": {
+            "type": "string",
+            "minLength": 1
+          },
+          "extension": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "PhoneType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Home",
+          "Work",
+          "Mobile",
+          "Fax"
+        ],
+        "enum": [
+          "Home",
+          "Work",
+          "Mobile",
+          "Fax"
+        ]
+      },
+      "Employment": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "employmentId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "employmentStatusType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EmploymentStatusType"
+              }
+            ]
+          },
+          "businessName": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Address"
+              }
+            ]
+          },
+          "positionTitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lineOfWorkYears": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "lineOfWorkMonths": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "isEmployedByFamilySellerAgentOrParty": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isOwnerOrSelfEmployed": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "ownershipInterestType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/OwnershipInterestType"
+              }
+            ]
+          },
+          "monthlyIncomeOrLoss": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "monthlyBase": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "monthlyOvertime": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "monthlyBonus": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "monthlyCommission": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "monthlyMilitaryEntitlements": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "monthlyOtherIncome": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "previousMonthlyGrossIncome": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          }
+        }
+      },
+      "EmploymentStatusType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "Current",
+          "Previous"
+        ],
+        "enum": [
+          "None",
+          "Current",
+          "Previous"
+        ]
+      },
+      "OwnershipInterestType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "LessThan25Percent",
+          "GreaterThanOrEqualTo25Percent"
+        ],
+        "enum": [
+          "None",
+          "LessThan25Percent",
+          "GreaterThanOrEqualTo25Percent"
+        ]
+      },
+      "IncomeOtherSource": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "incomeSource": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/IncomeType"
+              }
+            ]
+          },
+          "monthlyIncome": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          }
+        }
+      },
+      "IncomeType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "Alimony",
+          "NotesReceivableInstallment",
+          "Pension",
+          "SocialSecurity",
+          "MortgageDifferential",
+          "Trust",
+          "Unemployment",
+          "AutomobileAllowance",
+          "FosterCare",
+          "VABenefitsNonEducational",
+          "Other",
+          "BoarderIncome",
+          "MortgageCreditCertificate",
+          "CapitalGains",
+          "Royalties",
+          "ChildSupport",
+          "DefinedContributionPlan",
+          "Disability",
+          "HousingAllowance",
+          "DividendsInterest",
+          "PublicAssistance",
+          "SeparateMaintenance"
+        ],
+        "enum": [
+          "None",
+          "Alimony",
+          "NotesReceivableInstallment",
+          "Pension",
+          "SocialSecurity",
+          "MortgageDifferential",
+          "Trust",
+          "Unemployment",
+          "AutomobileAllowance",
+          "FosterCare",
+          "VA Compensation",
+          "Other",
+          "BoarderIncome",
+          "MortgageCreditCertificate",
+          "CapitalGains",
+          "Royalties",
+          "ChildSupport",
+          "Retirement",
+          "Disability",
+          "HousingAllowance",
+          "DividendsInterest",
+          "PublicAssistance",
+          "SeparateMaintenance"
+        ]
+      },
+      "OtherAsset": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "otherAssetId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "assetType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AssetAndCreditType"
+              }
+            ]
+          },
+          "assetAndCreditTypeOtherDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "cashOrMarketValue": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          }
+        }
+      },
+      "Liability": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "liabilityId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "liabilityType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LiabilityType"
+              }
+            ]
+          },
+          "companyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "unpaidBalance": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "toBePaidOffBeforeClosing": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "monthlyPayment": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "installmentType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/InstallmentType"
+              }
+            ]
+          }
+        }
+      },
+      "LiabilityType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "CollectionsJudgmentsAndLiens",
+          "Installment",
+          "LeasePayment",
+          "Open30DayChargeAccount",
+          "Other",
+          "Revolving"
+        ],
+        "enum": [
+          "None",
+          "CollectionsJudgmentsAndLiens",
+          "Installment",
+          "Lease",
+          "Open30DayChargeAccount",
+          "Other",
+          "Revolving"
+        ]
+      },
+      "InstallmentType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "AutoLoan",
+          "StudentLoan",
+          "PersonalLoan"
+        ],
+        "enum": [
+          "AutoLoan",
+          "StudentLoan",
+          "PersonalLoan"
+        ]
+      },
+      "OtherLiability": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "otherLiabilityId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "expenseType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LiabilityExpenseType"
+              }
+            ]
+          },
+          "monthlyPayment": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          }
+        }
+      },
+      "LiabilityExpenseType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "Alimony",
+          "ChildSupport",
+          "JobRelatedExpenses",
+          "Other",
+          "SeparateMaintenanceExpense"
+        ],
+        "enum": [
+          "None",
+          "Alimony",
+          "ChildSupport",
+          "JobRelatedExpenses",
+          "Other",
+          "SeparateMaintenanceExpense"
+        ]
+      },
+      "GiftOrGrant": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "assetType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/GiftAssetType"
+              }
+            ]
+          },
+          "deposited": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "fundsSourceType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/FundsSourceType"
+              }
+            ]
+          },
+          "cashOrMarketValue": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          }
+        }
+      },
+      "GiftAssetType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "GiftOfCash",
+          "GiftOfPropertyEquity",
+          "Grant"
+        ],
+        "enum": [
+          "None",
+          "GiftOfCash",
+          "GiftOfPropertyEquity",
+          "Grant"
+        ]
+      },
+      "FundsSourceType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "CommunityNonProfit",
+          "Employer",
+          "FederalAgency",
+          "Lender",
+          "LocalAgency",
+          "NonParentRelative",
+          "Other",
+          "Parent",
+          "Relative",
+          "ReligiousNonProfit",
+          "StateAgency",
+          "UnmarriedPartner",
+          "UnrelatedFriend"
+        ],
+        "enum": [
+          "None",
+          "CommunityNonProfit",
+          "Employer",
+          "FederalAgency",
+          "Lender",
+          "LocalAgency",
+          "NonParentRelative",
+          "Other",
+          "Parent",
+          "Relative",
+          "ReligiousNonProfit",
+          "StateAgency",
+          "UnmarriedPartner",
+          "UnrelatedFriend"
+        ]
+      },
+      "RealEstate": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "realEstateId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "subjectProperty": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "address": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Address"
+              }
+            ]
+          },
+          "propertyValue": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "propertyStatus": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/PropertyStatus"
+              }
+            ]
+          },
+          "occupancyType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/OccupancyType"
+              }
+            ]
+          },
+          "maintenanceExpenseAmount": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "monthlyRentalIncome": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "netMonthlyRentalIncome": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "mortgageLoans": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/MortgageLoan"
+            }
+          },
+          "realEstateOwnedDoesNotApply": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "numberOfUnits": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "mortgageLoanDoesNotApply": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "monthlyInsurance": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "monthlyTaxes": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "monthlyHoa": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          }
+        }
+      },
+      "PropertyStatus": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "Sold",
+          "Retained",
+          "PendingSale"
+        ],
+        "enum": [
+          "None",
+          "Sold",
+          "Retained",
+          "PendingSale"
+        ]
+      },
+      "OccupancyType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "PrimaryResidence",
+          "SecondHome",
+          "Investment",
+          "FHASecondaryResidence",
+          "Other"
+        ],
+        "enum": [
+          "None",
+          "PrimaryResidence",
+          "SecondHome",
+          "Investment",
+          "FHASecondaryResidence",
+          "Other"
+        ]
+      },
+      "MortgageLoan": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "creditorName": {
+            "type": "string",
+            "nullable": true
+          },
+          "accountNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "monthlyMortgagePayment": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "unpaidBalance": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "toBePaidOffBeforeClosing": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "mortgageType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MortgageType"
+              }
+            ]
+          },
+          "creditLimit": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          }
+        }
+      },
+      "MortgageType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "VA",
+          "FHA",
+          "Conventional",
+          "USDARuralDevelopment",
+          "Other"
+        ],
+        "enum": [
+          "None",
+          "VA",
+          "FHA",
+          "Conventional",
+          "USDARuralDevelopment",
+          "Other"
+        ]
+      },
+      "PropertyTitleHeldType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "Sole",
+          "JointWithSpouse",
+          "JointWithOtherThanSpouse"
+        ],
+        "enum": [
+          "None",
+          "Sole",
+          "JointWithSpouse",
+          "JointWithOtherThanSpouse"
+        ]
+      },
+      "BorrowerLOS": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "borrowerGUID": {
+            "type": "string",
+            "format": "guid"
+          },
+          "employmentIncome": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "totalIncome": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        }
+      },
+      "BorrowerMetadata": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "borrowerGUID": {
+            "type": "string",
+            "format": "guid"
+          },
+          "consentsGiven": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/LoanConsent"
+            }
+          },
+          "doNotCall": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "externalId": {
+            "type": "string",
+            "nullable": true
+          },
+          "leadId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "isVIP": {
+            "type": "boolean",
+            "nullable": true
+          }
+        }
+      },
+      "BorrowerSSN": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "borrowerGuid": {
+            "type": "string",
+            "format": "guid"
+          },
+          "taxIdentifierNumber": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ConsentType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "ThirdPartySharing",
+          "TextingCommunication",
+          "CreditPullAuthorization",
+          "EConsent"
+        ],
+        "enum": [
+          "ThirdPartySharing",
+          "TextingCommunication",
+          "CreditPullAuthorization",
+          "EConsent"
+        ]
+      },
+      "ConstructionClosingType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "OneClosing",
+          "TwoClosing"
+        ],
+        "enum": [
+          "None",
+          "OneClosing",
+          "TwoClosing"
+        ]
+      },
+      "ConsumerProvidedData": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "consumerUserId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": true
+          },
+          "acceptedPurchaseOnHome": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "typeOfProperty": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TypeOfProperty"
+              }
+            ]
+          },
+          "propertyUsagePlan": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/PropertyUsagePlan"
+              }
+            ]
+          },
+          "comfortableWithARM": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Confirmation"
+              }
+            ]
+          },
+          "coborrowerUsers": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/CoborrowerUser"
+            }
+          },
+          "estimatedPurchasePrice": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "downPayment": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "housingExpenseFirstMortgage": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "housingExpenseOtherFinancing": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "housingExpensePropertyTaxes": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "housingExpenseInsurance": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "housingExpenseHOA": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "housingExpensePMI": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "housingExpenseOther": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "housingExpenseMonthlyRent": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "shareInformation": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "losUserId": {
+            "type": "string",
+            "nullable": true
+          },
+          "hasCoborrowers": {
+            "type": "boolean",
+            "nullable": true
+          }
+        }
+      },
+      "TypeOfProperty": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "SingleFamily",
+          "Condo",
+          "MultiFamily",
+          "Townhome",
+          "Lot",
+          "Other"
+        ],
+        "enum": [
+          "SingleFamily",
+          "Condo",
+          "MultiFamily",
+          "Townhome",
+          "Lot",
+          "Other"
+        ]
+      },
+      "PropertyUsagePlan": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "NearTerm",
+          "MidTerm",
+          "LongTerm",
+          "NotSure"
+        ],
+        "enum": [
+          "NearTerm",
+          "MidTerm",
+          "LongTerm",
+          "NotSure"
+        ]
+      },
+      "Confirmation": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Yes",
+          "No",
+          "NotSure"
+        ],
+        "enum": [
+          "Yes",
+          "No",
+          "NotSure"
+        ]
+      },
+      "DbCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "buffered": {
+            "type": "boolean"
+          },
+          "commandType": {
+            "$ref": "#/components/schemas/CommandType"
+          },
+          "commandTimeout": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "commandText": {
+            "type": "string",
+            "nullable": true
+          },
+          "splitOn": {
+            "type": "string",
+            "nullable": true
+          },
+          "returnValue": {
+            "type": "integer",
+            "format": "int32",
+            "deprecated": true,
+            "x-deprecatedMessage": "Do not use return value. Use select or output params for more explicit usage."
+          }
+        }
+      },
+      "CommandType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Text",
+          "StoredProcedure",
+          "TableDirect"
+        ],
+        "enum": [
+          "Text",
+          "StoredProcedure",
+          "TableDirect"
+        ]
+      },
+      "EmailAlertOption": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Disabled",
+          "UncheckedByDefault",
+          "CheckedByDefault"
+        ],
+        "enum": [
+          "Disabled",
+          "UncheckedByDefault",
+          "CheckedByDefault"
+        ]
+      },
+      "EstateType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "FeeSimple",
+          "Leasehold"
+        ],
+        "enum": [
+          "None",
+          "FeeSimple",
+          "Leasehold"
+        ]
+      },
+      "EthnicityOriginType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "Mexican",
+          "PuertoRican",
+          "Cuban",
+          "Other"
+        ],
+        "enum": [
+          "None",
+          "Mexican",
+          "PuertoRican",
+          "Cuban",
+          "Other"
+        ]
+      },
+      "EthnicityType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "HispanicOrLatino",
+          "NotHispanicOrLatino"
+        ],
+        "enum": [
+          "None",
+          "HispanicOrLatino",
+          "NotHispanicOrLatino"
+        ]
+      },
+      "TResult": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "EntityExtenders": {
+        "type": "object",
+        "x-abstract": true,
+        "additionalProperties": false
+      },
+      "IURLARequest": {
+        "type": "object",
+        "x-abstract": true,
+        "additionalProperties": false
+      },
+      "LicensedState": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "abbreviation": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "LienPriorityType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "FirstLien",
+          "SecondLien",
+          "Other"
+        ],
+        "enum": [
+          "None",
+          "FirstLien",
+          "SecondLien",
+          "Other"
+        ]
+      },
+      "Loan": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "loanApplication": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LoanApplication"
+              }
+            ]
+          },
+          "losData": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LOSData"
+              }
+            ]
+          },
+          "metadata": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/VIPMetadata"
+              }
+            ]
+          },
+          "consumerProvidedData": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ConsumerProvidedData"
+              }
+            ]
+          }
+        }
+      },
+      "LoanApplication": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "loanApplicationGUID": {
+            "type": "string",
+            "format": "guid",
+            "nullable": true
+          },
+          "borrowers": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Borrower"
+            }
+          },
+          "loanAmount": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "loanPurpose": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LoanPurpose"
+              }
+            ]
+          },
+          "loanPurposeOtherDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "propertyAddress": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Address"
+              }
+            ]
+          },
+          "propertyNumberOfUnits": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "propertyValue": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "propertyOccupancyType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/OccupancyType"
+              }
+            ]
+          },
+          "propertyFHASecondaryResidence": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "propertyMixedUse": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "propertyManufacturedHome": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "propertyOtherNewMortgageLoans": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/OtherMortgageLoan"
+            }
+          },
+          "propertyHasRentalIncome": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "propertyExpectedMonthlyRentalIncome": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "propertyExpectedNetMonthlyRentalIncome": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "atLeastOneBorrowerInCommunityState": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "propertyInCommunityState": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "conversionOfContractForDeedOrLandContract": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "renovation": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "constructionToPermanent": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "constructionClosingType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ConstructionClosingType"
+              }
+            ]
+          },
+          "constructionImprovementCosts": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "lotAquiredDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "originalCostOfLot": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "refinanceType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/RefinanceType"
+              }
+            ]
+          },
+          "refinanceProgram": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/RefinanceProgramType"
+              }
+            ]
+          },
+          "refinanceProgramOtherDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "mortgageWillFinanceEnergyImprovements": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "propertyIsSubjectToCleanEnergyLien": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "projectIsCondominium": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "projectIsCooperative": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "projectIsPUD": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "propertyIsNotLocatedInAProject": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "titleWillBeHeldInWhatNames": {
+            "type": "string",
+            "nullable": true
+          },
+          "estateWillBeHeldIn": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EstateType"
+              }
+            ]
+          },
+          "leaseholdExpirationDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "mannerInWhichTitleWillBeHeld": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TitleHeldMannerType"
+              }
+            ]
+          },
+          "titleCurrentlyHeldInWhatNames": {
+            "type": "string",
+            "nullable": true
+          },
+          "trustInformation": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TrustClassificationType"
+              }
+            ]
+          },
+          "indianCountryLandTenure": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/NativeAmericanLandsType"
+              }
+            ]
+          },
+          "mortageTypeAppliedFor": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MortgageType"
+              }
+            ]
+          },
+          "mortageTypeOtherDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "noteRate": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "mortgageLienType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LienPriorityType"
+              }
+            ]
+          },
+          "loanTerm": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "amortizationType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AmortizationType"
+              }
+            ]
+          },
+          "amortizationTypeOtherDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "adjustableRatePeriodPriorToFirstAdjustment": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "adjustableRateSubsequentAdjustmentPeriod": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "isBalloon": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "balloonTerm": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "isInterestOnly": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "interestOnlyTerm": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "isNegativeAmortization": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isPrepaymentPenalty": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "prepaymentPenaltyTerm": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "isTemporaryInterestRateBuydown": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "initialBuydownRate": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "isOtherLoanFeature": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "otherLoanFeatureExplained": {
+            "type": "string",
+            "nullable": true
+          },
+          "proposedFirstMortgage": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "proposedSubordinateLiens": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "proposedHomeownersInsurance": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "proposedSupplementalPropertyInsurance": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "proposedPropertyTaxes": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "proposedMortgageInsurance": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "proposedHomeOwnerAssociationDues": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "proposedOther": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "dueFromBorrowerSalesContractPrice": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "dueFromBorrowerImprovementsRenovationsRepairs": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "dueFromBorrowerLand": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "dueFromBorrowerClosingCosts": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "dueFromBorrowerDiscountPoints": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "loanAmountExcludingFinancedMortgageInsurance": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "financedMortgageInsuranceAmount": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "sellerCredits": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "otherCredits": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "downPayment": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        }
+      },
+      "LoanPurpose": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "Purchase",
+          "RefinanceNoCashOut",
+          "RefinanceCashOut",
+          "Construction",
+          "ConstructionToPermanent",
+          "Other"
+        ],
+        "enum": [
+          "None",
+          "Purchase",
+          "RefinanceNoCashOut",
+          "RefinanceCashOut",
+          "Construction",
+          "ConstructionToPermanent",
+          "Other"
+        ]
+      },
+      "OtherMortgageLoan": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "creditorName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lienType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LienPriorityType"
+              }
+            ]
+          },
+          "monthlyPayment": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "loanAmount": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "creditLimit": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          }
+        }
+      },
+      "RefinanceType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "NoCashOut",
+          "LimitedCashOut",
+          "CashOut"
+        ],
+        "enum": [
+          "None",
+          "NoCashOut",
+          "LimitedCashOut",
+          "CashOut"
+        ]
+      },
+      "RefinanceProgramType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "FullDocumentation",
+          "InterestRateReductionRefinanceLoan",
+          "StreamlineWithoutAppraisal",
+          "Other"
+        ],
+        "enum": [
+          "None",
+          "FullDocumentation",
+          "InterestRateReductionRefinanceLoan",
+          "StreamlineWithoutAppraisal",
+          "Other"
+        ]
+      },
+      "TitleHeldMannerType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "Individual",
+          "JointTenantsWithRightOfSurvivorship",
+          "LifeEstate",
+          "Other",
+          "TenantsByTheEntirety",
+          "TenantsInCommon"
+        ],
+        "enum": [
+          "None",
+          "Individual",
+          "JointTenantsWithRightOfSurvivorship",
+          "LifeEstate",
+          "Other",
+          "TenantsByTheEntirety",
+          "TenantsInCommon"
+        ]
+      },
+      "TrustClassificationType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "LandTrust",
+          "LivingTrust"
+        ],
+        "enum": [
+          "None",
+          "LandTrust",
+          "LivingTrust"
+        ]
+      },
+      "NativeAmericanLandsType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "FeeSimple",
+          "IndividualTrustLand",
+          "AlaskaNativeCorporationLand",
+          "TribalTrustLandOffReservation",
+          "TribalTrustLandOnAReservation"
+        ],
+        "enum": [
+          "None",
+          "FeeSimple",
+          "IndividualTrustLand",
+          "AlaskaNativeCorporationLand",
+          "TribalTrustLandOffReservation",
+          "TribalTrustLandOnAReservation"
+        ]
+      },
+      "LOSData": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "borrowers": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/BorrowerLOS"
+            }
+          },
+          "amortizationType": {
+            "type": "string",
+            "nullable": true
+          },
+          "armPlan": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateDisclosuresReceived": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "discountFee": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "discountPoint": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "existingLienAmounts": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "lienPosition": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "dateLoanCreated": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateLoanModified": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "loanOfficerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "loanType": {
+            "type": "string",
+            "nullable": true
+          },
+          "losLoanFolder": {
+            "type": "string",
+            "nullable": true
+          },
+          "mortgageOriginalPurchasePrice": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "originationFee": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "originationPoint": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "principalPurchase": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "program": {
+            "type": "string",
+            "nullable": true
+          },
+          "propertyType": {
+            "type": "string",
+            "nullable": true
+          },
+          "purpose": {
+            "type": "string",
+            "nullable": true
+          },
+          "residenceType": {
+            "type": "string",
+            "nullable": true
+          },
+          "srpAmount": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "dateSubmitted": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "totalExpenses": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "totalIncome": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "adjustedLoanPrice": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "dateApplication": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "applicationFee": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "bankBroker": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "basisPoints": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "dateBorrowerFunding": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "brokerFee": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "creditGrade": {
+            "type": "string",
+            "nullable": true
+          },
+          "docType": {
+            "type": "string",
+            "nullable": true
+          },
+          "estimatedCorpPrice": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "fico": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateInspection": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isAdverse": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "leadId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "legacyId": {
+            "type": "string",
+            "nullable": true
+          },
+          "monthsTillFirstAdjustmentPayment": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "loanOfficerEmail": {
+            "type": "string",
+            "format": "email",
+            "nullable": true
+          },
+          "loanOfficerId": {
+            "type": "string",
+            "nullable": true
+          },
+          "loanOfficerPhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "losChannel": {
+            "type": "string",
+            "nullable": true
+          },
+          "losProfileId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "organizationId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "orgId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "dateMailingAddressModifiedAtClosing": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "plc": {
+            "type": "string",
+            "nullable": true
+          },
+          "datePriced": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "pricingPercent": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "dateRecycle": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "recycleReason": {
+            "type": "string",
+            "nullable": true
+          },
+          "revenue": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "rollbackIdentifier": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateSetup": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateWarehoused": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "warehouseFee": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "warehouseVerified": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "dateWithdrawn": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateFirstPayment": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "monthsTillARMFirstChange": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "isReferralPartnerOwnedByLOS": {
+            "type": "boolean"
+          },
+          "milestone": {
+            "type": "string",
+            "nullable": true
+          },
+          "milestoneId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "milestoneDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "loanNumberText": {
+            "type": "string",
+            "nullable": true
+          },
+          "losLoanId": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateClosed": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "dateOriginated": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateCreditReceived": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateAppraisalOrdered": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateAppraisalReceived": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateTitleOrdered": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateTitleReceived": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateLock": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateLockExpiration": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateDisclosures": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateProcessing": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateApproved": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateFinalSubmission": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateCleared": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateDocsOut": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateDocsSigning": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateFundsReceived": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateSuspended": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateShipped": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateLoanPurchase": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateEstimatedClose": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "basePrice": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "titleCompanyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "processingfee": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "underwritingFee": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "loanStatus": {
+            "type": "string",
+            "nullable": true
+          },
+          "loanStatusDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "startedInLos": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "actionTaken": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateActionTaken": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "reasonsForDenial": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ReasonForDenialEntry"
+            }
+          },
+          "dti": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "ltv": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "cltv": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          }
+        }
+      },
+      "ReasonForDenialEntry": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "reasonForDenial": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "VIPMetadata": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "loanContacts": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/LoanContact"
+            }
+          },
+          "borrowers": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/BorrowerMetadata"
+            }
+          },
+          "milestoneHistory": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/MilestoneHistory"
+            }
+          },
+          "ownerSubscriberId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "applicationStatusId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "externalId": {
+            "type": "string",
+            "nullable": true
+          },
+          "sourceId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "referralPartnerId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "referralPartnerMarketingEnabled": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "contactStatusId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "queueId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "dateExported": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateFed6Collected": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateCreditRun": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateExportScheduled": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "exportLoanTemplateId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "exportErrorMessage": {
+            "type": "string",
+            "nullable": true
+          },
+          "losLoanId": {
+            "type": "string",
+            "nullable": true
+          },
+          "sourceProductKey": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "LoanContact": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "applicationPartnerId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "partnerId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "applicationPartnerTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isMarketingEnabled": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "externalId": {
+            "type": "string",
+            "nullable": true
+          },
+          "isOwnedByLos": {
+            "type": "boolean",
+            "nullable": true
+          }
+        }
+      },
+      "LoanConsent": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "consentType": {
+            "$ref": "#/components/schemas/ConsentType"
+          },
+          "dateGiven": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "consentText": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "LoanApplicationLinked": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "loanApplicationGUID": {
+            "type": "string",
+            "format": "guid"
+          },
+          "formTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "streetAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "loanPurpose": {
+            "$ref": "#/components/schemas/LoanPurpose"
+          },
+          "dateCreated": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "LoanApplicationLinkedContainer": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "loanApplication": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/LoanApplicationLinked"
+            }
+          }
+        }
+      },
+      "LoanApplicationUpdate": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "loanApplication": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LoanApplication"
+              }
+            ]
+          },
+          "delta": {
+            "nullable": true
+          },
+          "metadata": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/VIPMetadata"
+              }
+            ]
+          },
+          "los": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LOSData"
+              }
+            ]
+          }
+        }
+      },
+      "LoanApplicationUpdateIntegration": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/LoanApplicationUpdate"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "losData": {
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "BorrowerStatusLookup": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "borrowerStatusId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "contactType": {
+            "$ref": "#/components/schemas/ContactType"
+          },
+          "availableToUser": {
+            "type": "boolean"
+          }
+        }
+      },
+      "LoanTemplateLookup": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "loanTemplateId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "MilestoneLookup": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "milestoneId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "MilestoneHistory": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "milestoneId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "milestoneDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dateRecorded": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "SourceLookup": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "sourceId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "availableToUser": {
+            "type": "boolean"
+          }
+        }
+      },
+      "MessageToLO": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "subject": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "clientLogoUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "MessageToLORequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "subject",
+          "message"
+        ],
+        "properties": {
+          "subject": {
+            "type": "string",
+            "minLength": 1
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "Note": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "noteId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "contactId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "contactType": {
+            "$ref": "#/components/schemas/ContactType"
+          },
+          "loanApplicationGuid": {
+            "type": "string",
+            "format": "guid"
+          },
+          "subject": {
+            "type": "string",
+            "nullable": true
+          },
+          "body": {
+            "type": "string",
+            "nullable": true
+          },
+          "isSystemGenerated": {
+            "type": "boolean"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "dateCreated": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "PartnerExtended": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Partner"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "partnerTypeName": {
+                "type": "string",
+                "nullable": true
+              },
+              "companyName": {
+                "type": "string",
+                "nullable": true
+              },
+              "assignedTo": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "Partner": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "partnerId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "ownerSubscriberId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "regionId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "useCompanyAddress": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "name": {
+            "$ref": "#/components/schemas/Name"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "licenseNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "phones": {
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "$ref": "#/components/schemas/Phone"
+            }
+          },
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "websiteURL": {
+            "type": "string",
+            "nullable": true
+          },
+          "partnerType": {
+            "$ref": "#/components/schemas/PartnerType"
+          },
+          "partnerTypeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "contactStatusId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "partnerCompanyId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "companyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "bestTimeToContact": {
+            "$ref": "#/components/schemas/BestTimeToContact",
+            "nullable": true
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "emailAlertOption": {
+            "$ref": "#/components/schemas/EmailAlertOption",
+            "nullable": true
+          },
+          "assignedTo": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "PartnerType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Other",
+          "Real_Estate_Agent",
+          "Stock_Broker",
+          "CFP",
+          "Banker",
+          "CPA",
+          "Business_Manager",
+          "Insurance_Agent",
+          "HR_Director",
+          "Builder_Contractor",
+          "Lawyer",
+          "Divorce_Attorney",
+          "Title_Agent",
+          "Banker_Credit_Union",
+          "Real_Estate_Broker"
+        ],
+        "enum": [
+          "Other",
+          "Real_Estate_Agent",
+          "Stock_Broker",
+          "CFP",
+          "Banker",
+          "CPA",
+          "Business_Manager",
+          "Insurance_Agent",
+          "HR_Director",
+          "Builder_Contractor",
+          "Lawyer",
+          "Divorce_Attorney",
+          "Title_Agent",
+          "Banker_Credit_Union",
+          "Real_Estate_Broker"
+        ]
+      },
+      "Permission": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "permissionKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "permissionType": {
+            "$ref": "#/components/schemas/PermissionType"
+          }
+        }
+      },
+      "PermissionType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "User",
+          "Access",
+          "UserAccess",
+          "System"
+        ],
+        "enum": [
+          "None",
+          "User",
+          "Access",
+          "UserAccess",
+          "System"
+        ]
+      },
+      "RaceAsianType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "AsianIndian",
+          "Chinese",
+          "Filipino",
+          "Japanese",
+          "Korean",
+          "Vietnamese",
+          "OtherAsian"
+        ],
+        "enum": [
+          "None",
+          "AsianIndian",
+          "Chinese",
+          "Filipino",
+          "Japanese",
+          "Korean",
+          "Vietnamese",
+          "OtherAsian"
+        ]
+      },
+      "RacePacificIslanderType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "NativeHawaiian",
+          "GuamanianOrChamorro",
+          "Samoan",
+          "OtherPacificIslander"
+        ],
+        "enum": [
+          "None",
+          "NativeHawaiian",
+          "GuamanianOrChamorro",
+          "Samoan",
+          "OtherPacificIslander"
+        ]
+      },
+      "RaceType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "AmericanIndianOrAlaskaNative",
+          "NativeHawaiianOrOtherPacificIslander",
+          "Asian",
+          "White",
+          "BlackOrAfricanAmerican"
+        ],
+        "enum": [
+          "None",
+          "AmericanIndianOrAlaskaNative",
+          "NativeHawaiianOrOtherPacificIslander",
+          "Asian",
+          "White",
+          "BlackOrAfricanAmerican"
+        ]
+      },
+      "RefinanceProgramOtherDescriptionType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "TwoZeroThreeK",
+          "RateTerm",
+          "Short",
+          "Simple",
+          "StreamlineCredit",
+          "StreamlineNoCredit"
+        ],
+        "enum": [
+          "None",
+          "TwoZeroThreeK",
+          "RateTerm",
+          "Short",
+          "Simple",
+          "StreamlineCredit",
+          "StreamlineNoCredit"
+        ]
+      },
+      "RequestExtensions": {
+        "type": "object",
+        "x-abstract": true,
+        "additionalProperties": false
+      },
+      "SexType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "None",
+          "Male",
+          "Female"
+        ],
+        "enum": [
+          "None",
+          "Male",
+          "Female"
+        ]
+      },
+      "Source": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "sourceId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "isAvailableToUsers": {
+            "type": "boolean"
+          },
+          "isVendor": {
+            "type": "boolean"
+          },
+          "queueId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "isDirectAssign": {
+            "type": "boolean"
+          },
+          "secureData": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/SourceSecuredata"
+              }
+            ]
+          }
+        }
+      },
+      "SourceSecuredata": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "mainContact": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "clientUserName": {
+            "type": "string",
+            "nullable": true
+          },
+          "clientPassword": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CoborrowerUser": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "borrowerId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "userId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": true
+          },
+          "assetsListedByPrimaryBorrower": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "liabilitiesListedByPrimaryBorrower": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "realEstateListedByPrimaryBorrower": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "submitDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "losUserId": {
+            "type": "string",
+            "nullable": true
+          },
+          "primaryBorrowerOwns": {
+            "type": "boolean",
+            "nullable": true
+          }
+        }
+      },
+      "SSN": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "loanApplicationGuid": {
+            "type": "string",
+            "format": "guid"
+          },
+          "borrowers": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/BorrowerSSN"
+            }
+          }
+        }
+      },
+      "TaskStatus": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "NotStarted",
+          "Started",
+          "Completed"
+        ],
+        "enum": [
+          "NotStarted",
+          "Started",
+          "Completed"
+        ]
+      },
+      "UpsertApplication": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "subscriptionId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "updatedBySubscriberId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "updatedByImpersonatorId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "updatedByTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "changeEventId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "ownerSubscriberId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "fullDocument": {
+            "type": "string",
+            "nullable": true
+          },
+          "changedValues": {
+            "type": "string",
+            "nullable": true
+          },
+          "applicationMetadata": {
+            "type": "string",
+            "nullable": true
+          },
+          "applicationLOSdata": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UrlaEnumAttribute": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Attribute"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string",
+                "nullable": true
+              },
+              "ellieMae": {
+                "type": "string",
+                "nullable": true
+              },
+              "calyx": {
+                "type": "string",
+                "nullable": true
+              },
+              "lendingQB": {
+                "type": "string",
+                "nullable": true
+              },
+              "pcLender": {
+                "type": "string",
+                "nullable": true
+              },
+              "mismo34": {
+                "type": "string",
+                "nullable": true
+              },
+              "fnma32": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          }
+        ]
+      },
+      "Attribute": {
+        "type": "object",
+        "x-abstract": true,
+        "additionalProperties": false,
+        "properties": {
+          "typeId": {}
+        }
+      },
+      "UrlaEnumType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Default",
+          "Encompass",
+          "Calyx",
+          "LendingQB",
+          "PCLender",
+          "Mismo",
+          "Fnma32"
+        ],
+        "enum": [
+          "Default",
+          "Encompass",
+          "Calyx",
+          "LendingQB",
+          "PCLender",
+          "Mismo",
+          "Fnma32"
+        ]
+      },
+      "UrlaExtensions": {
+        "type": "object",
+        "x-abstract": true,
+        "additionalProperties": false
+      },
+      "UrlaTask": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "taskId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "contactId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "contactType": {
+            "$ref": "#/components/schemas/ContactType"
+          },
+          "loanApplicationGuid": {
+            "type": "string",
+            "format": "guid"
+          },
+          "startTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dueTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "taskStatus": {
+            "$ref": "#/components/schemas/TaskStatus"
+          },
+          "subject": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "dateCreated": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "UserProfile": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "subscriptionId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "subscriberId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "uniqueKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "impersonatorId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "fullName": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Name"
+              }
+            ]
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "altEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "companyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "userNMLSNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "branchNMLSNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "streetAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "nullable": true
+          },
+          "zipCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "photoUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "logoUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "applyNowUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "websiteUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "profileFilePath": {
+            "type": "string",
+            "nullable": true
+          },
+          "Fed6Automation": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "HasLosProfile": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "permissions": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Permission"
+            }
+          },
+          "licensedStates": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/LicensedState"
+            }
+          },
+          "loanTemplateRequired": {
+            "type": "boolean"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "currentLoanRate": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "enableAddressStandardization": {
+            "type": "boolean"
+          }
+        }
+      },
+      "VIPUserLookups": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "milestones": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/MilestoneLookup"
+            }
+          },
+          "loanTemplates": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/LoanTemplateLookup"
+            }
+          },
+          "sources": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/SourceLookup"
+            }
+          },
+          "borrowerStatuses": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/BorrowerStatusLookup"
+            }
+          }
+        }
+      },
+      "LoanSummary": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "loanApplicationGuid": {
+            "type": "string",
+            "format": "guid"
+          },
+          "subscriberId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "consumerUserId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": true
+          },
+          "applicationStatusId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "milestoneName": {
+            "type": "string",
+            "nullable": true
+          },
+          "coborrowerUserIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          "propertyAddress": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Address"
+              }
+            ]
+          },
+          "loanPurpose": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LoanPurpose"
+              }
+            ]
+          }
+        }
+      },
+      "SummaryRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "ids": {
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "SyncConsumerLeadData": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "ownerSubscriberId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "consumerId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "consumerUserId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "Email": {
+            "type": "string"
+          },
+          "fullName": {
+            "$ref": "#/components/schemas/SyncConsumerLeadName"
+          },
+          "propertyIds": {
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "$ref": "#/components/schemas/SyncConsumerPropertyId"
+            }
+          }
+        }
+      },
+      "SyncConsumerLeadName": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "middleName": {
+            "type": "string"
+          }
+        }
+      },
+      "SyncConsumerPropertyId": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "propertyId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "ApplicationsForValidationHit": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "loanApplicationGUID": {
+            "type": "string",
+            "nullable": false,
+            "format": "guid"
+          },
+          "subscriptionId": {
+            "type": "integer",
+            "nullable": false
+          }
+        }
+      },
+      "ApplicationsForValidationRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "MinDateFilter": {
+            "type": "string",
+            "nullable": true,
+            "format": "date"
+          },
+          "MaxDateFilter": {
+            "type": "string",
+            "nullable": true,
+            "format": "date"
+          },
+          "MaxResults": {
+            "type": "integer",
+            "nullable": true
+          },
+          "SubscriberIdFilter": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      }
+    }
+  }
+}

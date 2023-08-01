@@ -1,0 +1,54 @@
+# ===============================================================
+# Before using this script , declare the following variables at 
+# cloudbuild
+#
+#   _PROJECT_ID                 development-internal-233813
+#   _VPC_CONNECTOR              projects\/internal-resources-corp\/locations\/us-central1\/connectors\/serverless-connector
+#   _SERVICE_ACCOUNT            vip-dev-address-standadardize@development-internal-233813.iam.gserviceaccount.com
+#   _LOCATION                   us-central1
+#   _PROJECT_ID
+#   _URLA_ENDPOINT              Endpoint for urla service
+#   _CONSUMER_ENDPOINT          Endpoint for consumer service
+#
+# Tabrasa VideoContactShare deployment
+steps:
+ # This creates the configuration for GCFs
+  - name: "gcr.io/cloud-builders/gcloud"
+    id: Update env file
+    entrypoint: /bin/sh
+    args:
+      - "-c"
+      - |
+        set -x && \
+        sed -i "s/URLA_ENDPOINT/${_URLA_ENDPOINT}/g" ./ci-cd/VideoContactShare/env-variables.yaml && \
+        sed -i "s/CONSUMER_ENDPOINT/${_CONSUMER_ENDPOINT}/g" ./ci-cd/VideoContactShare/env-variables.yaml && \
+        sed -i "s/PROJECT_ID/${_PROJECT_ID}/g" ./ci-cd/VideoContactShare/env-variables.yaml && \
+        sed -i "s/LOCATION/${_LOCATION}/g" ./ci-cd/VideoContactShare/env-variables.yaml && \
+        sed -i "s/TOKEN_CLIENTID/${_TOKEN_CLIENTID}/g" ./ci-cd/VideoContactShare/env-variables.yaml && \
+        sed -i "s/TOKEN_ENDPOINT/${_TOKEN_ENDPOINT}/g" ./ci-cd/VideoContactShare/env-variables.yaml && \
+        sed -i "s/VIDEO_ENDPOINT/${_VIDEO_ENDPOINT}/g" ./ci-cd/VideoContactShare/env-variables.yaml && \
+        sed -i "s/PRIVATE_VIDEO_URL_PATTERN/${_PRIVATE_VIDEO_URL_PATTERN}/g" ./ci-cd/VideoContactShare/env-variables.yaml && \
+        sed -i "s/CONTACT_VIDEO_URL_PATTERN/${_CONTACT_VIDEO_URL_PATTERN}/g" ./ci-cd/VideoContactShare/env-variables.yaml && \
+        sed -i "s/INVITATION_ENDPOINT/${_INVITATION_ENDPOINT}/g" ./ci-cd/VideoContactShare/env-variables.yaml && \
+        sed -i "s/TOKEN_CLIENT_SECRET/${_TOKEN_CLIENT_SECRET}/g" ./ci-cd/VideoContactShare/env-variables.yaml && \
+        cat ./ci-cd/VideoContactShare/env-variables.yaml
+  # This creates the LosEvents topic to bind TabrasaListener cloud function
+  - name: "gcr.io/cloud-builders/gcloud"
+    id: Create Topic VideoContactShare
+    entrypoint: /bin/sh
+    args:
+      - "-c"
+      - |
+        if (gcloud pubsub topics list | grep VideoContactShare); then  echo 'Existing topic'; else (gcloud pubsub topics create VideoContactShare); fi
+ # This step publish latest version of Tabrasa VideoContactShare
+  - name: gcr.io/cloud-builders/gcloud
+    id: Publish VideoContactShare
+    args: [ 'functions', 'deploy', 'VideoContactShare',  '--gen2',
+           '--entry-point', 'Tabrasa.Serverless.VideoContactShare.VideoContactShareGCF', 
+           '--runtime', 'dotnet6', 
+           '--region', '${_LOCATION}',
+           '--trigger-topic', 'VideoContactShare', 
+           '--source', './Tabrasa.Serverless.VideoContactShare/', 
+           '--env-vars-file', './ci-cd/VideoContactShare/env-variables.yaml',  
+           '--service-account', '${_SERVICE_ACCOUNT}',
+           '--project', '${_PROJECT_ID}'] 
